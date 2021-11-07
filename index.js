@@ -64,9 +64,10 @@ async function run() {
 
         // GET
 
-        app.get('/appointments', async (req, res) => {
+        app.get('/appointments', verifyToken, async (req, res) => {
             const email = req.query.email;
-            const date = new Date(req.query.date).toLocaleDateString();
+            const date = req.query.date;
+
             // let date = new Date()
             // date.setDate(date.getDate() = 1);
             console.log(date)
@@ -131,7 +132,7 @@ async function run() {
         })
 
         //APPOINTMENTS POST
-        app.post('/appointments', verifyToken, async (req, res) => {
+        app.post('/appointments', async (req, res) => {
             const appointment = req.body;
             // console.log(appointment);
             const result = await appointmentsCollection.insertOne(appointment);
